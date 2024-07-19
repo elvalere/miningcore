@@ -283,7 +283,7 @@ public class ShareReceiver : BackgroundService
         // store
         share.PoolId = topic;
         share.Created = clock.Now;
-        messageBus.SendMessage(new StratumShare(null, share));
+        messageBus.SendMessage(share);
 
         // update poolstats from shares
         if(poolContext != null)
@@ -291,7 +291,8 @@ public class ShareReceiver : BackgroundService
             var pool = poolContext.Pool;
             var shareMultiplier = poolContext.Pool.ShareMultiplier;
 
-            poolContext.Logger.Info(() => $"External {(!string.IsNullOrEmpty(share.Source) ? $"[{share.Source.ToUpper()}] " : string.Empty)}share accepted: D={Math.Round(share.Difficulty * shareMultiplier, 4)}");
+// elva - suppression de la ligne en dessous
+  //          poolContext.Logger.Info(() => $"External {(!string.IsNullOrEmpty(share.Source) ? $"[{share.Source.ToUpper()}] " : string.Empty)}share accepted: D={Math.Round(share.Difficulty * shareMultiplier, 4)}");
 
             messageBus.SendTelemetry(share.PoolId, TelemetryCategory.Share, TimeSpan.Zero, true);
 
@@ -312,9 +313,13 @@ public class ShareReceiver : BackgroundService
             }
         }
 
+// elva - suppression de else{ }, vu qu'il sera vide pour éviter une erreur de compilation
         else
-            logger.Info(() => $"External {(!string.IsNullOrEmpty(share.Source) ? $"[{share.Source.ToUpper()}] " : string.Empty)}share accepted: D={Math.Round(share.Difficulty, 4)}");
-    }
+            messageBus.SendTelemetry(share.PoolId, TelemetryCategory.Share, TimeSpan.Zero, true);
+
+        // elva - suppression de la ligne en dessous
+     //       logger.Info(() => $"External {(!string.IsNullOrEmpty(share.Source) ? $"[{share.Source.ToUpper()}] " : string.Empty)}share accepted: D={Math.Round(share.Difficulty, 4)}");
+        }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
     {

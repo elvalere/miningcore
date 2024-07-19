@@ -313,7 +313,7 @@ public class ErgoJobManager : JobManagerBase<ErgoJob>
 
             if(share.IsBlockCandidate)
             {
-                logger.Info(() => $"Daemon accepted block {share.BlockHeight} [{share.BlockHash}] submitted by {context.Miner}");
+                logger.Info(() => $"Daemon accepted block {share.BlockHeight} block [{share.BlockHash}] submitted by {context.Miner}");
 
                 OnBlockFound();
 
@@ -416,6 +416,10 @@ public class ErgoJobManager : JobManagerBase<ErgoJob>
 
         if(info?.IsMining != true)
             throw new PoolStartupException("Mining is disabled in Ergo Daemon", poolConfig.Id);
+
+        // update stats
+        if(!string.IsNullOrEmpty(info?.AppVersion))
+            BlockchainStats.NodeVersion = info?.AppVersion;
 
         return true;
     }

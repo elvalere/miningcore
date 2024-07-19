@@ -249,12 +249,13 @@ public class CryptonotePool : PoolBase
             await connection.RespondAsync(new CryptonoteResponseBase(), request.Id);
 
             // publish
-            messageBus.SendMessage(new StratumShare(connection, share));
+            messageBus.SendMessage(share);
 
             // telemetry
             PublishTelemetry(TelemetryCategory.Share, clock.Now - tsRequest.Timestamp.UtcDateTime, true);
 
-            logger.Info(() => $"[{connection.ConnectionId}] Share accepted: D={Math.Round(share.Difficulty, 3)}");
+// elva - suppression de la ligne en dessous
+      //      logger.Info(() => $"[{connection.ConnectionId}] Share accepted: D={Math.Round(share.Difficulty, 3)}");
 
             // update pool stats
             if(share.IsBlockCandidate)
@@ -273,6 +274,8 @@ public class CryptonotePool : PoolBase
 
             // update client stats
             context.Stats.InvalidShares++;
+
+            // elva - suppression de la ligne en dessous
             logger.Info(() => $"[{connection.ConnectionId}] Share rejected: {ex.Message} [{context.UserAgent}]");
 
             // banning
@@ -289,7 +292,9 @@ public class CryptonotePool : PoolBase
 
     private async Task OnNewJobAsync()
     {
-        logger.Info(() => "Broadcasting jobs");
+
+        // elva - suppression de la ligne en dessous
+   //     logger.Info(() => "Broadcasting jobs");
 
         await Guard(() => ForEachMinerAsync(async (connection, ct) =>
         {
@@ -381,6 +386,11 @@ public class CryptonotePool : PoolBase
                 case CryptonoteStratumMethods.KeepAlive:
                     // recognize activity
                     context.LastActivity = clock.Now;
+
+                    // For some reasons, we would never send a reply here :/
+                    // But the official XMRig documentation is explicit, we should reply: https://xmrig.com/docs/extensions/keepalive
+                    // XMRig is such a gift, i wish more mining pool operators were like them and valued open-source, the same way the XMRig devs do
+                    await connection.RespondAsync(new CryptonoteKeepAliveResponse(), request.Id);
                     break;
 
                 default:

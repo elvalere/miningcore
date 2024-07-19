@@ -107,12 +107,12 @@ public class BitcoinJob
 
             // serialize (simulated) input transaction
             bs.ReadWriteAsVarInt(ref txInputCount);
-            bs.ReadWrite(ref sha256Empty);
+            bs.ReadWrite(sha256Empty);
             bs.ReadWrite(ref txInPrevOutIndex);
 
             // signature script initial part
             bs.ReadWriteAsVarInt(ref sigScriptLength);
-            bs.ReadWrite(ref sigScriptInitialBytes);
+            bs.ReadWrite(sigScriptInitialBytes);
 
             // done
             coinbaseInitial = stream.ToArray();
@@ -125,14 +125,14 @@ public class BitcoinJob
             var bs = new BitcoinStream(stream, true);
 
             // signature script final part
-            bs.ReadWrite(ref scriptSigFinalBytes);
+            bs.ReadWrite(scriptSigFinalBytes);
 
             // tx in sequence
             bs.ReadWrite(ref txInSequence);
 
             // serialize output transaction
             var txOutBytes = SerializeOutputTransaction(txOut);
-            bs.ReadWrite(ref txOutBytes);
+            bs.ReadWrite(txOutBytes);
 
             // misc
             bs.ReadWrite(ref txLockTime);
@@ -189,7 +189,7 @@ public class BitcoinJob
 
                 bs.ReadWrite(ref amount);
                 bs.ReadWriteAsVarInt(ref rawLength);
-                bs.ReadWrite(ref raw);
+                bs.ReadWrite(raw);
             }
 
             // serialize outputs
@@ -202,7 +202,7 @@ public class BitcoinJob
 
                 bs.ReadWrite(ref amount);
                 bs.ReadWriteAsVarInt(ref rawLength);
-                bs.ReadWrite(ref raw);
+                bs.ReadWrite(raw);
             }
 
             return stream.ToArray();
@@ -248,6 +248,9 @@ public class BitcoinJob
 
         if (coin.HasMinerFund)
             rewardToPool = CreateMinerFundOutputs(tx, rewardToPool);
+
+        if(coin.HasCommunityAddress)
+            rewardToPool = CreateCommunityAddressOutputs(tx, rewardToPool);
 
         // Remaining amount goes to pool
         tx.Outputs.Add(rewardToPool, poolAddressDestination);
@@ -400,15 +403,27 @@ public class BitcoinJob
         {
             var bs = new BitcoinStream(stream, true);
 
-            bs.ReadWrite(ref header);
+            bs.ReadWrite(header);
             bs.ReadWriteAsVarInt(ref transactionCount);
 
-            bs.ReadWrite(ref coinbase);
-            bs.ReadWrite(ref rawTransactionBuffer);
+            bs.ReadWrite(coinbase);
+            bs.ReadWrite(rawTransactionBuffer);
 
             // POS coins require a zero byte appended to block which the daemon replaces with the signature
             if(isPoS)
                 bs.ReadWrite((byte) 0);
+
+            // if pool supports MWEB, we have to append the MWEB data to the block
+            // https://github.com/litecoin-project/litecoin/blob/0.21/doc/mweb/mining-changes.md
+            if(coin.HasMWEB)
+            {
+                var separator = new byte[] { 0x01 };
+                var mweb = BlockTemplate.Extra.SafeExtensionDataAs<MwebBlockTemplateExtra>();
+                var mwebRaw = mweb.Mweb.HexToByteArray();
+
+                bs.ReadWrite(separator);
+                bs.ReadWrite(mwebRaw);
+            }
 
             return stream.ToArray();
         }
@@ -542,6 +557,20 @@ public class BitcoinJob
 
     #endregion // Founder
 
+    #region CommunityAddress
+
+    protected virtual Money CreateCommunityAddressOutputs(Transaction tx, Money reward)
+    {
+        if(BlockTemplate.CommunityAutonomousValue > 0)
+        {
+            var payeeReward = BlockTemplate.CommunityAutonomousValue;
+            var payeeAddress = BitcoinUtils.AddressToDestination(BlockTemplate.CommunityAutonomousAddress, network);
+            tx.Outputs.Add(payeeReward, payeeAddress);
+        }
+        return reward;
+    }
+    #endregion // CommunityAddres
+
     #region API-Surface
 
     public BlockTemplate BlockTemplate { get; protected set; }
@@ -593,7 +622,7 @@ public class BitcoinJob
         {
             masterNodeParameters = BlockTemplate.Extra.SafeExtensionDataAs<MasterNodeBlockTemplateExtra>();
 
-            if((coin.Symbol == "RTM") || (coin.Symbol == "THOON") || (coin.Symbol == "YERB") || (coin.Symbol == "BTRM"))
+            if(coin.HasSmartNodes)
             {
                 if(masterNodeParameters.Extra?.ContainsKey("smartnode") == true)
                 {

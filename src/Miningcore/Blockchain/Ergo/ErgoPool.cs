@@ -189,12 +189,13 @@ public class ErgoPool : PoolBase
             await connection.RespondAsync(true, request.Id);
 
             // publish
-            messageBus.SendMessage(new StratumShare(connection, share));
+            messageBus.SendMessage(share);
 
             // telemetry
             PublishTelemetry(TelemetryCategory.Share, clock.Now - tsRequest.Timestamp.UtcDateTime, true);
 
-            logger.Info(() => $"[{connection.ConnectionId}] Share accepted: D={Math.Round(share.Difficulty * ErgoConstants.ShareMultiplier, 3)}");
+// elva - suppression de la ligne en dessous
+       //     logger.Info(() => $"[{connection.ConnectionId}] Share accepted: D={Math.Round(share.Difficulty * ErgoConstants.ShareMultiplier, 3)}");
 
             // update pool stats
             if(share.IsBlockCandidate)
@@ -213,6 +214,8 @@ public class ErgoPool : PoolBase
 
             // update client stats
             context.Stats.InvalidShares++;
+
+            // elva - suppression de la ligne en dessous
             logger.Info(() => $"[{connection.ConnectionId}] Share rejected: {ex.Message} [{context.UserAgent}]");
 
             // banning
@@ -226,7 +229,8 @@ public class ErgoPool : PoolBase
     {
         currentJobParams = jobParams;
 
-        logger.Info(() => $"Broadcasting job {jobParams[0]}");
+// elva - suppression de la ligne en dessous
+  //      logger.Info(() => $"Broadcasting job {jobParams[0]}");
 
         await Guard(() => ForEachMinerAsync(async (connection, ct) =>
         {

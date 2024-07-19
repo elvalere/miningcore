@@ -6,8 +6,6 @@ namespace Miningcore.Blockchain.Ethereum;
 public class EthereumConstants
 {
     public const ulong EpochLength = 30000;
-    public const ulong CacheSizeForTesting = 1024;
-    public const ulong DagSizeForTesting = 1024 * 32;
     public static BigInteger BigMaxValue = BigInteger.Pow(2, 256);
     public static double Pow2x32 = Math.Pow(2, 32);
     public static BigInteger BigPow2x32 = new(Pow2x32);
@@ -39,6 +37,19 @@ public class EthereumConstants
     public const string RpcRequestWorkerPropertyName = "worker";
 }
 
+// ETC block reward distribution - ECIP 1017
+// https://ecips.ethereumclassic.org/ECIPs/ecip-1017
+public class EthereumClassicConstants
+{
+    public const ulong HardForkBlockMainnet = 11700000;
+    public const ulong HardForkBlockMordor = 2520000;
+    public const ulong EpochLength = 60000;
+    public const ulong EraLength = 5000001;
+    public const double DisinflationRateQuotient = 4.0;
+    public const double DisinflationRateDivisor = 5.0;
+    public const decimal BaseRewardInitial = 5.0m;
+}
+
 // Callisto Monetary Policy
 // https://github.com/EthereumCommonwealth/Roadmap/issues/56
 public class CallistoConstants
@@ -52,19 +63,83 @@ public class EthOneConstants
     public const decimal BaseRewardInitial = 2.0m;
 }
 
+// OCTA block reward distribution - 
+// https://docs.octa.space/cryptocurrency/monetary-policy
+public class OctaSpaceConstants
+{
+    public const ulong TriangulumHardForkHeight = 10000000;
+    public const decimal TriangulumBlockReward = 1.0m;
+    public const ulong VegaHardForkHeight = 8000000;
+    public const decimal VegaBlockReward = 1.1m;
+    public const ulong BlackeyeHardForkHeight = 6000000;
+    public const decimal BlackeyeBlockReward = 1.2m;
+    public const ulong DneprHardForkHeight = 4000000;
+    public const decimal DneprBlockReward = 1.85m;
+    public const ulong MahasimHardForkHeight = 3000000;
+    public const decimal MahasimBlockReward = 2.3m;
+    public const ulong PolarisHardForkHeight = 2500000;
+    public const decimal PolarisBlockReward = 2.8m;
+    public const ulong SpringwaterHardForkHeight = 2000000;
+    public const decimal SpringwaterBlockReward = 3.0m;
+    public const ulong ZagamiHardForkHeight = 1500000;
+    public const decimal ZagamiBlockReward = 3.5m;
+    public const ulong OldenburgHardForkHeight = 1000000;
+    public const decimal OldenburgBlockReward = 4.0m;
+    public const ulong ArcturusHardForkHeight = 650000;
+    public const decimal ArcturusBlockReward = 5.0m;
+    public const decimal BaseRewardInitial = 6.5m;
+}
+
 public class PinkConstants
 {
     public const decimal BaseRewardInitial = 1.0m;
+}
+
+// Hypra
+// https://github.com/Rethereum-blockchain/open-rethereum-pool/blob/master/payouts/unlocker.go
+public class HypraConstants
+{
+    public const ulong EpochLength = 32000;
+    public const ulong LondonHeight = 15787969;
+    public const decimal LondonBlockReward = 3.0m;
+    public const ulong ArrowGlacierHeight = 27200177;
+    public const decimal ArrowGlacierBlockReward = 2.0m;
+    public const ulong GrayGlacierHeight = 40725107;
+    public const decimal GrayGlacierBlockReward = 1.0m;
+    public const decimal BaseRewardInitial = 4.0m;
+}
+
+// UBIQ block reward distribution - 
+// https://github.com/ubiq/UIPs/issues/16 - https://ubiqsmart.com/en/monetary-policy
+public class UbiqConstants
+{
+    public const ulong YearOneHeight = 358363;
+    public const decimal YearOneBlockReward = 7.0m;
+    public const ulong YearTwoHeight = 716727;
+    public const decimal YearTwoBlockReward = 6.0m;
+    public const ulong YearThreeHeight = 1075090;
+    public const decimal YearThreeBlockReward = 5.0m;
+    public const ulong YearFourHeight = 1433454;
+    public const decimal YearFourBlockReward = 4.0m;
+    public const ulong OrionHardForkHeight = 1791793;
+    public const decimal OrionBlockReward = 1.5m;
+    public const decimal BaseRewardInitial = 8.0m;
 }
 
 public enum EthereumNetworkType
 {
     Main = 1,
     Ropsten = 3,
+    Ubiq = 8,
+    Classic = 1,
+    Mordor = 7,
     Callisto = 820,
     MainPow = 10001,
     EtherOne = 4949,
     Pink = 10100,
+    OctaSpace = 800001,
+    OctaSpaceTestnet = 800002,
+    Hypra = 622277,
 
     Unknown = -1,
 }
@@ -73,10 +148,16 @@ public enum GethChainType
 {
     Main,
     Ropsten,
+    Ubiq,
+    Classic,
+    Mordor,
     Callisto,
     MainPow = 10001,
     EtherOne = 4949,
     Pink = 10100,
+    OctaSpace,
+    OctaSpaceTestnet,
+    Hypra,
     
     Unknown = -1,
 }

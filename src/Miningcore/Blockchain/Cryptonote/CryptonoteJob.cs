@@ -27,6 +27,7 @@ public class CryptonoteJob
         RandomXRealm = randomXRealm;
 
         hashFunc = hashFuncs[coin.Hash];
+        blobType = coin.BlobType;
     }
 
     protected delegate void HashFunc(string realm, string seedHex, ReadOnlySpan<byte> data, Span<byte> result, ulong height);
@@ -35,26 +36,26 @@ public class CryptonoteJob
     {
         { CryptonightHashType.RandomX, (realm, seedHex, data, result, _) => RandomX.CalculateHash(realm, seedHex, data, result) },
         { CryptonightHashType.RandomARQ, (realm, seedHex, data, result, _) => RandomARQ.CalculateHash(realm, seedHex, data, result) },
-        { CryptonightHashType.Crytonight0, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_0, height) },
-        { CryptonightHashType.Crytonight1, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_1, height) },
-        { CryptonightHashType.Crytonight2, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_2, height) },
-        { CryptonightHashType.CrytonightHalf, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HALF, height) },
-        { CryptonightHashType.CrytonightDouble, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_DOUBLE, height) },
-        { CryptonightHashType.CrytonightR, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_R, height) },
-        { CryptonightHashType.CrytonightRTO, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_RTO, height) },
-        { CryptonightHashType.CrytonightRWZ, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_RWZ, height) },
-        { CryptonightHashType.CrytonightZLS, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_ZLS, height) },
-        { CryptonightHashType.CrytonightCCX, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_CCX, height) },
-        { CryptonightHashType.CrytonightGPU, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_GPU, height) },
-        { CryptonightHashType.CrytonightFast, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_FAST, height) },
-        { CryptonightHashType.CrytonightXAO, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_XAO, height) },
+        { CryptonightHashType.Cryptonight0, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_0, height) },
+        { CryptonightHashType.Cryptonight1, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_1, height) },
+        { CryptonightHashType.Cryptonight2, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_2, height) },
+        { CryptonightHashType.CryptonightHalf, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HALF, height) },
+        { CryptonightHashType.CryptonightDouble, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_DOUBLE, height) },
+        { CryptonightHashType.CryptonightR, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_R, height) },
+        { CryptonightHashType.CryptonightRTO, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_RTO, height) },
+        { CryptonightHashType.CryptonightRWZ, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_RWZ, height) },
+        { CryptonightHashType.CryptonightZLS, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_ZLS, height) },
+        { CryptonightHashType.CryptonightCCX, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_CCX, height) },
+        { CryptonightHashType.CryptonightGPU, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_GPU, height) },
+        { CryptonightHashType.CryptonightFast, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_FAST, height) },
+        { CryptonightHashType.CryptonightXAO, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_XAO, height) },
         { CryptonightHashType.Ghostrider, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, GHOSTRIDER_RTM, height) },
-        { CryptonightHashType.CrytonightLite0, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_LITE_0, height) },
-        { CryptonightHashType.CrytonightLite1, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_LITE_1, height) },
-        { CryptonightHashType.CrytonightHeavy, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_0, height) },
-        { CryptonightHashType.CrytonightHeavyXHV, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_XHV, height) },
-        { CryptonightHashType.CrytonightHeavyTube, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_TUBE, height) },
-        { CryptonightHashType.CrytonightPico, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_PICO_0, height) },
+        { CryptonightHashType.CryptonightLite0, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_LITE_0, height) },
+        { CryptonightHashType.CryptonightLite1, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_LITE_1, height) },
+        { CryptonightHashType.CryptonightHeavy, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_0, height) },
+        { CryptonightHashType.CryptonightHeavyXHV, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_XHV, height) },
+        { CryptonightHashType.CryptonightHeavyTube, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_HEAVY_TUBE, height) },
+        { CryptonightHashType.CryptonightPico, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_PICO_0, height) },
         { CryptonightHashType.ArgonCHUKWA, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, AR2_CHUKWA, height) },
         { CryptonightHashType.ArgonCHUKWAV2, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, AR2_CHUKWA_V2, height) },
         { CryptonightHashType.ArgonWRKZ, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, AR2_WRKZ, height) },
@@ -63,6 +64,7 @@ public class CryptonoteJob
     private byte[] blobTemplate;
     private int extraNonce;
     private readonly HashFunc hashFunc;
+    private readonly int blobType;
 
     private void PrepareBlobTemplate(byte[] instanceId)
     {
@@ -81,7 +83,7 @@ public class CryptonoteJob
         var bytes = BitConverter.GetBytes(workerExtraNonce.ToBigEndian());
         bytes.CopyTo(blob[BlockTemplate.ReservedOffset..]);
 
-        return CryptonoteBindings.ConvertBlob(blob, blobTemplate.Length).ToHexString();
+        return CryptonoteBindings.ConvertBlob(blob, blobTemplate.Length, blobType).ToHexString();
     }
 
     private string EncodeTarget(double difficulty, int size = 4)
@@ -156,7 +158,7 @@ public class CryptonoteJob
         bytes.CopyTo(blob[CryptonoteConstants.BlobNonceOffset..]);
 
         // convert
-        var blobConverted = CryptonoteBindings.ConvertBlob(blob, blobTemplate.Length);
+        var blobConverted = CryptonoteBindings.ConvertBlob(blob, blobTemplate.Length, blobType);
         if(blobConverted == null)
             throw new StratumException(StratumError.MinusOne, "malformed blob");
 
@@ -204,7 +206,12 @@ public class CryptonoteJob
         {
             // Compute block hash
             Span<byte> blockHash = stackalloc byte[32];
-            ComputeBlockHash(blobConverted, blockHash);
+            
+            // Not all Cryptonote coins are equal
+            if(blobType == ZephyrConstants.BlobType)
+                CryptonoteBindings.GetBlockId(blob, blockHash, blobType);
+            else
+                ComputeBlockHash(blobConverted, blockHash);
 
             // Fill in block-relevant fields
             result.IsBlockCandidate = true;

@@ -168,10 +168,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="allium.h" />
     <ClInclude Include="bcrypt.h" />
     <ClInclude Include="blake.h" />
     <ClInclude Include="blake2\ref\blake2-impl.h" />
     <ClInclude Include="blake2\ref\blake2.h" />
+    <ClInclude Include="blake3\blake3.h" />
+    <ClInclude Include="blake3\blake3_impl.h" />
     <ClInclude Include="boolberry.h" />
     <ClInclude Include="brg_endian.h" />
     <ClInclude Include="c11.h" />
@@ -244,14 +247,29 @@
     <ClInclude Include="sha3\sph_types.h" />
     <ClInclude Include="sha3\sph_whirlpool.h" />
     <ClInclude Include="sha3\SWIFFTX.h" />
+    <ClInclude Include="shake\crypto\cpu_endian.h" />
+    <ClInclude Include="shake\crypto\crypto.h" />
+    <ClInclude Include="shake\cshake.h" />
+    <ClInclude Include="shake\keccak.h" />
+    <ClInclude Include="shake\shake.h" />
     <ClInclude Include="shavite3.h" />
     <ClInclude Include="skein.h" />
+    <ClInclude Include="skein2.h" />
+    <ClInclude Include="skydoge.h" />
     <ClInclude Include="Sponge.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stdint.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="verthash\h2.h" />
     <ClInclude Include="verthash\tiny_sha3\sha3.h" />
+    <ClInclude Include="yescrypt\sha256.h" />
+    <ClInclude Include="yescrypt\yescrypt.h" />
+    <ClInclude Include="yespower\crypto\blake2b-yp.h" />
+    <ClInclude Include="yespower\crypto\sph_types.h" />
+    <ClInclude Include="yespower\insecure_memzero.h" />
+    <ClInclude Include="yespower\sha256.h" />
+    <ClInclude Include="yespower\sysendian.h" />
+    <ClInclude Include="yespower\yespower.h" />
     <ClInclude Include="x11.h" />
     <ClInclude Include="x13.h" />
     <ClInclude Include="x14.h" />
@@ -263,8 +281,16 @@
     <ClInclude Include="x21s.h" />
     <ClInclude Include="x22i.h" />
     <ClInclude Include="sha512_256.h" />
+    <ClInclude Include="minotaur\crypto\insecure_memzero.h" />
+    <ClInclude Include="minotaur\crypto\sha256.h" />
+    <ClInclude Include="minotaur\crypto\sysendian.h" />
+    <ClInclude Include="minotaur\crypto\yespower.h" />
+    <ClInclude Include="minotaur\minotaurx.h" />
+    <ClInclude Include="fishhash\3rdParty\keccak.h" />
+    <ClInclude Include="fishhash\fishhash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="allium.c" />
     <ClCompile Include="bcrypt.c" />
     <ClCompile Include="blake.c" />
     <ClCompile Include="blake2\ref\blake2b-ref.c" />
@@ -273,6 +299,9 @@
     <ClCompile Include="blake2\ref\blake2sp-ref.c" />
     <ClCompile Include="blake2\ref\blake2xb-ref.c" />
     <ClCompile Include="blake2\ref\blake2xs-ref.c" />
+    <ClCompile Include="blake3\blake3.c" />
+    <ClCompile Include="blake3\blake3_dispatch.c" />
+    <ClCompile Include="blake3\blake3_portable.c" />
     <ClCompile Include="c11.c" />
     <ClCompile Include="dcrypt.c" />
     <ClCompile Include="dllmain.cpp" />
@@ -340,12 +369,25 @@
     <ClCompile Include="sha3\sph_tiger.c" />
     <ClCompile Include="sha3\sph_whirlpool.c" />
     <ClCompile Include="sha3\SWIFFTX.c" />
+    <ClCompile Include="shake\cshake.c" />
+    <ClCompile Include="shake\keccak.c" />
+    <ClCompile Include="shake\shake.c" />
     <ClCompile Include="shavite3.c" />
     <ClCompile Include="skein.c" />
+    <ClCompile Include="skein2.c" />
+    <ClCompile Include="skydoge.c" />
     <ClCompile Include="Sponge.c" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="verthash\h2.c" />
     <ClCompile Include="verthash\tiny_sha3\sha3.c" />
+    <ClCompile Include="yescrypt\sha256.c" />
+    <ClCompile Include="yescrypt\yescrypt.c" />
+    <ClCompile Include="yescrypt\yescrypt-opt.c" />
+    <ClCompile Include="yescrypt\yescrypt.c" />
+    <ClCompile Include="yespower\crypto\blake2b-yp.c" />
+    <ClCompile Include="yespower\yespower-blake2b.c" />
+    <ClCompile Include="yespower\yespower-combined.c" />
+    <ClCompile Include="yespower\yespower-platform.c" />
     <ClCompile Include="x11.c" />
     <ClCompile Include="x13.c" />
     <ClCompile Include="x14.c" />
@@ -359,6 +401,11 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
     </ClCompile>
     <ClCompile Include="sha512_256.c" />
+    <ClCompile Include="minotaur\crypto\sha256.c" />
+    <ClCompile Include="minotaur\crypto\yespower.c" />
+    <ClCompile Include="minotaur\minotaurx.c" />
+    <ClCompile Include="fishhash\3rdParty\keccak.c" />
+    <ClCompile Include="fishhash\fishhash.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="equi\crypto\equihash.tcc" />
