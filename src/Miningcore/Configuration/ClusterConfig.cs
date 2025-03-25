@@ -51,6 +51,9 @@ public enum CoinFamily
 
     [EnumMember(Value = "progpow")]
     Progpow,
+
+    [EnumMember(Value = "hoosat")]
+    Hoosat,
 }
 
 public abstract partial class CoinTemplate
@@ -165,6 +168,7 @@ public abstract partial class CoinTemplate
         {CoinFamily.Kaspa, typeof(KaspaCoinTemplate)},
         {CoinFamily.Nexa, typeof(BitcoinTemplate)},
         {CoinFamily.Progpow, typeof(ProgpowCoinTemplate)},
+        {CoinFamily.Hoosat, typeof(HoosatCoinTemplate)},
     };
 }
 
@@ -661,6 +665,25 @@ public partial class EthereumCoinTemplate : CoinTemplate
 
 public partial class KaspaCoinTemplate : CoinTemplate
 {
+}
+
+public partial class HoosatCoinTemplate : CoinTemplate
+{
+    /// <summary>
+    /// Returns the algorithm name for Hoosat.
+    /// </summary>
+    public override string GetAlgorithmName()
+    {
+        switch(Symbol)
+        {
+            case "HTN":
+            return "Hoohash";
+
+            default:
+            // TODO: return variant
+            return "Hoohash";
+        }
+    }
 }
 
 public partial class ProgpowCoinTemplate : BitcoinTemplate
