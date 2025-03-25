@@ -51,6 +51,9 @@ public static class MiningPoolExtensions
                 case "kaspa":
                     extra.StripValue(nameof(KaspaPaymentProcessingConfigExtra.WalletPassword));
                     break;
+                case "hoosat":
+                    extra.StripValue(nameof(HoosatPaymentProcessingConfigExtra.WalletPassword));
+                    break;
             }
         }
 
