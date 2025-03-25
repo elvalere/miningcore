@@ -19,6 +19,7 @@ using Miningcore.Crypto;
 using Miningcore.Crypto.Hashing.Equihash;
 using Miningcore.Crypto.Hashing.Ethash;
 using Miningcore.Crypto.Hashing.Progpow;
+using Miningcore.Blockchain.Hoosat;
 using Miningcore.Messaging;
 using Miningcore.Mining;
 using Miningcore.Notifications;
@@ -230,5 +231,10 @@ public class AutofacModule : Module
         builder.RegisterType<ProgpowJobManager>();
 
         base.Load(builder);
+
+        //////////////////////
+        // Hoosat
+        builder.RegisterType<HoosatJobManager>();
+
     }
 }
