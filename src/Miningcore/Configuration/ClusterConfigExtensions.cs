@@ -278,6 +278,10 @@ public partial class KaspaCoinTemplate
     #endregion
 }
 
+public partial class HoosatCoinTemplate : CoinTemplate
+{
+}
+    
 public partial class ProgpowCoinTemplate
 {
     #region Overrides of CoinTemplate
